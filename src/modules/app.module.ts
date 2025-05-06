@@ -7,7 +7,7 @@ import {
 import configuration from 'src/configuration';
 import { ConsumerService } from 'src/services/consumer.service';
 import { OrderStatusConsumerService } from 'src/services/order-status.consumer.service';
-
+import { KafkaProducerHostModule } from 'kafka-producer-host';
 console.log({ KafkaConsumerHostModule });
 @Module({
   imports: [
@@ -21,6 +21,10 @@ console.log({ KafkaConsumerHostModule });
       groupId: configuration().kafkaConsumerGroupId,
       clientId: configuration().consumerClientId,
       offsetReset: KafkaConsumerOffsetReset.LATEST, // or 'earliest'
+    }),
+    KafkaProducerHostModule.register({
+      bootstrapServer: configuration().kafkaConsumerBootstrapServers,
+      clientId: configuration().producerClientId,
     }),
   ],
   providers: [ConsumerService, OrderStatusConsumerService],

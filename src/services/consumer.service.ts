@@ -4,9 +4,9 @@ import { KafkaConsumerBase } from 'kafka-consumer-host';
 @Injectable()
 export class ConsumerService extends KafkaConsumerBase {
   registerHandlers(): void {
-    this.handle('create-order', this.createOrderHandler);
-    this.handle('order-payment', this.orderPaymentHandler);
-    this.handle('sample-topic', this.sampleTopicHandler);
+    this.handle('create-order', this.createOrderHandler.bind(this));
+    this.handle('order-payment', this.orderPaymentHandler.bind(this));
+    this.handle('sample-topic', this.sampleTopicHandler.bind(this));
   }
 
   async createOrderHandler(payload: any, metadata: any): Promise<void> {
