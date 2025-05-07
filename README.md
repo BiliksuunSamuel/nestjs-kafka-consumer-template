@@ -8,3 +8,9 @@ A ready-to-use NestJS starter template for building Kafka consumer applications 
 - 2️⃣ Install dependencies
 - 3️⃣ Configure .env
 - 4️⃣ Start the app
+
+# Create project with template
+
+```bash
+npx degit BiliksuunSamuel/nestjs-kafka-consumer-template my-sample-consumer
+```
