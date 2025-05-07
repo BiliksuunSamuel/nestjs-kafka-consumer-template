@@ -20,7 +20,17 @@ console.log({ KafkaConsumerHostModule });
       bootstrapServer: configuration().kafkaConsumerBootstrapServers,
       groupId: configuration().kafkaConsumerGroupId,
       clientId: configuration().consumerClientId,
-      offsetReset: KafkaConsumerOffsetReset.LATEST, // or 'earliest'
+      offsetReset: KafkaConsumerOffsetReset.LATEST, // or 'earliest',
+      topicsPartition: [
+        {
+          topic: 'order-status',
+          partition: 3,
+        },
+        {
+          topic: 'order-create',
+          partition: 4,
+        },
+      ], //configuration to create topic if not exist with  partitions,
     }),
     KafkaProducerHostModule.register({
       bootstrapServer: configuration().kafkaConsumerBootstrapServers,
