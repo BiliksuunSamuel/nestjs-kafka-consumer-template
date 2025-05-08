@@ -6,7 +6,6 @@ import {
 } from 'kafka-consumer-host';
 import configuration from 'src/configuration';
 import { ConsumerService } from 'src/services/consumer.service';
-import { OrderStatusConsumerService } from 'src/services/order-status.consumer.service';
 import { KafkaProducerHostModule } from 'kafka-producer-host';
 console.log({ KafkaConsumerHostModule });
 @Module({
@@ -20,23 +19,25 @@ console.log({ KafkaConsumerHostModule });
       bootstrapServer: configuration().kafkaConsumerBootstrapServers,
       groupId: configuration().kafkaConsumerGroupId,
       clientId: configuration().consumerClientId,
-      offsetReset: KafkaConsumerOffsetReset.LATEST, // or 'earliest',
-      topicsPartition: [
-        {
-          topic: 'order-status',
-          partition: 3,
-        },
-        {
-          topic: 'order-create',
-          partition: 4,
-        },
-      ], //configuration to create topic if not exist with  partitions,
+      offsetReset: KafkaConsumerOffsetReset.LATEST,
+      ssl: true,
+      sasl: {
+        mechanism: 'plain',
+        username: configuration().sslKey,
+        password: configuration().sslSecret,
+      },
     }),
     KafkaProducerHostModule.register({
       bootstrapServer: configuration().kafkaConsumerBootstrapServers,
       clientId: configuration().producerClientId,
+      ssl: true,
+      sasl: {
+        mechanism: 'plain',
+        username: configuration().sslKey,
+        password: configuration().sslSecret,
+      },
     }),
   ],
-  providers: [ConsumerService, OrderStatusConsumerService],
+  providers: [ConsumerService],
 })
 export class AppModule {}

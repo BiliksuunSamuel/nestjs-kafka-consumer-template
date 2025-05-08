@@ -7,34 +7,10 @@ export class ConsumerService extends KafkaConsumerBase {
   private orderSuccesses = 0;
   private orderFailed = 0;
   registerHandlers(): void {
-    this.handle('order-create', this.createOrderHandler.bind(this));
-    this.handle('order-payment', this.orderPaymentHandler.bind(this));
-    this.handle('sample-topic', this.sampleTopicHandler.bind(this));
+    this.handle('sales-order', this.salesOrderTopicHandler.bind(this));
   }
 
-  async createOrderHandler(payload: any, metadata: any): Promise<void> {
-    console.log('🚀 Test Handler: Received message for create-order');
-    console.log('Payload:', payload);
-    console.log('Metadata:', metadata);
-    if (payload?.status === 'success') {
-      this.orderSuccesses++;
-    }
-    if (payload?.status === 'failed') {
-      this.orderFailed++;
-    }
-
-    console.log(
-      `OrderSuccesses: ${this.orderSuccesses} \t\t\t Order Failed: ${this.orderFailed}`,
-    );
-  }
-
-  async orderPaymentHandler(payload: any, metadata: any): Promise<void> {
-    console.log('🚀 Test Handler: Received message for update-order');
-    console.log('Payload:', payload);
-    console.log('Metadata:', metadata);
-  }
-
-  async sampleTopicHandler(payload: any, metadata: any): Promise<void> {
+  async salesOrderTopicHandler(payload: any, metadata: any): Promise<void> {
     console.log('🚀 Test Handler: Received message for sample-topic');
     console.log('Payload:', payload);
     console.log('Metadata:', metadata);
